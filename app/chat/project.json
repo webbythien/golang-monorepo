@@ -1,0 +1,36 @@
+{
+  "name": "app.chat",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "app/chat",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/chat",
+        "commands": [
+          "go build -o ../../dist/chat ."
+        ]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/chat",
+        "commands": [
+          "go test ./..."
+        ]
+      }
+    },
+    "tidy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/chat",
+        "commands": [
+          "go mod tidy"
+        ]
+      }
+    }
+  },
+  "tags": ["app", "go", "chat"]
+} 

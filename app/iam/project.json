@@ -1,0 +1,46 @@
+{
+  "name": "app.iam",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "app/iam",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/iam",
+        "commands": [
+          "go build -o ../../dist/iam ."
+        ]
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/iam",
+        "commands": [
+          "go run main.go"
+        ]
+      },
+      "dependsOn": ["build"]
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/iam",
+        "commands": [
+          "go test ./..."
+        ]
+      }
+    },
+    "tidy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "app/iam",
+        "commands": [
+          "go mod tidy"
+        ]
+      }
+    }
+  },
+  "tags": ["app", "go", "iam"]
+} 

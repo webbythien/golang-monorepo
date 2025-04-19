@@ -1,25 +1,175 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "defaultBase": "main",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": ["default"],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+    "goDeps": [
+      "{projectRoot}/**/*.go",
+      "{projectRoot}/**/go.*",
+      "!{projectRoot}/**/*_test.go"
+    ],
+    "includedAssets": [
+      "{projectRoot}/assets/*"
+    ],
+    "goDists": [
+      "{projectRoot}/dist/*"
+    ],
+    "protoDeps": [
+      "{projectRoot}/**/*.proto",
+      "{projectRoot}/**/buf.*"
+    ]
   },
-  "nxCloudId": "68034bfcd0a42172b070d80f",
-  "plugins": [
-    {
-      "plugin": "@nx/js/typescript",
+  "git": {
+    "commit": {
+      "message": "chore({{projectName}}): release {{newVersion}}"
+    }
+  },
+  "targetDefaults": {
+    "setup": {
+      "dependsOn": [
+        "^setup"
+      ]
+    },
+    "generate": {
+      "dependsOn": [
+        "^generate",
+        "setup"
+      ],
+      "cache": true
+    },
+    "tidy": {
+      "dependsOn": [
+        "generate",
+        "^tidy"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "cache": true,
+      "inputs": [
+        "goDeps"
+      ],
       "options": {
-        "typecheck": {
-          "targetName": "typecheck"
+        "parallel": false
+      }
+    },
+    "test": {
+      "cache": true,
+      "inputs": [
+        "goDeps",
+        "^goDeps"
+      ],
+      "dependsOn": [
+        "^test",
+        "mock",
+        "^mock"
+      ]
+    },
+    "e2e": {
+      "cache": true,
+      "inputs": [
+        "goDeps",
+        "^goDeps"
+      ],
+      "dependsOn": [
+        "^e2e",
+        "test"
+      ]
+    },
+    "build": {
+      "cache": false,
+      "inputs": [
+        "goDeps",
+        "includedAssets",
+        "^goDeps",
+        "^includedAssets"      
+      ]
+    },
+    "dockerize": {
+      "inputs": [
+        "goDists"
+      ],
+      "dependsOn": [
+        "build"
+      ],
+      "cache": false
+    }
+  },
+  "release": {
+    "conventionalCommits": {
+      "types": {
+        "docs": {
+          "changelog": {
+            "title": "Documentation Changes",
+            "semverBump": "none"
+          }
+        },
+        "chore": {
+          "changelog": {
+            "hidden": true,
+            "semverBump": "patch"
+          }
+        },
+        "refactor": {
+          "changelog": {
+            "title": "Code Refactoring",
+            "semverBump": "minor"
+          }
+        },
+        "revamp": {
+          "changelog": {
+            "title": "Module Revamping",
+            "semverBump": "minor"
+          }
         },
         "build": {
-          "targetName": "build",
-          "configName": "tsconfig.lib.json",
-          "buildDepsName": "build-deps",
-          "watchDepsName": "watch-deps"
+          "changelog": {
+            "hidden": true,
+            "semverBump": "none"
+          }
+        },
+        "ci": {
+          "changelog": {
+            "hidden": true,
+            "semverBump": "none"
+          }
         }
       }
+    },
+    "projects": [
+      "app.iam",
+      "app.chat"
+    ],
+    "version": {
+      "generatorOptions": {
+        "currentVersionResolver": "git-tag",
+        "specifierSource": "conventional-commits"
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      },
+      "projectChangelogs": true
+    },
+    "releaseTagPattern": "{projectName}@{version}",
+    "projectsRelationship": "independent"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "e2e", "generate"]
+      }
     }
-  ]
+  },
+  "workspaceLayout": {
+    "appsDir": "app",
+    "libsDir": "packages"
+  },
+  "defaultProject": "app.iam",
+  "parallel": 5,
+  "installation": {
+    "version": "19.2.1"
+  }
 }
+

@@ -1,0 +1,23 @@
+{
+  "name": "workspace",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "workspace",
+  "targets": {
+    "tidy": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "^tidy"
+      ],
+      "inputs": [
+        "{projectRoot}/go.*"
+      ],
+      "options": {
+        "commands": [
+          "go work use -r ."
+        ]
+      }
+    }
+  },
+  "tags": []
+} 
