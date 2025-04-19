@@ -1,90 +1,104 @@
 # Monorepo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Đây là một monorepo được quản lý bằng [Nx](https://nx.dev), chứa các ứng dụng và thư viện khác nhau.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Cấu trúc dự án
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Monorepo được tổ chức thành hai thư mục chính:
 
-## Finish your CI setup
+- `app/`: Chứa các ứng dụng (bao gồm iam và chat)
+- `packages/`: Chứa các thư viện chia sẻ
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/7LXpXXalHM)
+## Bắt đầu
 
+### Yêu cầu
 
-## Generate a library
+- Node.js
+- npm hoặc yarn
+- [Nx CLI](https://nx.dev/getting-started/installation)
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
-```
-
-## Run tasks
-
-To build the library use:
+### Cài đặt
 
 ```sh
-npx nx build pkg1
+# Cài đặt các phụ thuộc
+npm install
 ```
 
-To run any task with Nx use:
+## Sử dụng Nx
+
+### Chạy các tác vụ
+
+Để chạy bất kỳ tác vụ nào với Nx, sử dụng lệnh:
 
 ```sh
-npx nx <target> <project-name>
+npx nx <tác-vụ> <tên-dự-án>
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
-
+Ví dụ:
+```sh
+npx nx build app.iam
+npx nx test app.chat
 ```
+
+### Chạy API
+
+Để khởi động API, sử dụng lệnh:
+
+```sh
+npx nx run app.iam:serve
+```
+
+### Chạy tác vụ cho nhiều dự án
+
+```sh
+npx nx run-many -t <tác-vụ> -p <dự-án-1> <dự-án-2>
+```
+
+### Các tác vụ chính
+
+- `serve`: Khởi động dịch vụ API
+- `setup`: Thiết lập dự án
+- `generate`: Tạo mã tự động
+- `tidy`: Dọn dẹp và tổ chức mã
+- `lint`: Kiểm tra lỗi mã
+- `test`: Chạy kiểm thử đơn vị
+- `e2e`: Chạy kiểm thử end-to-end
+- `build`: Xây dựng dự án
+- `dockerize`: Tạo container Docker
+
+## Tạo một thư viện mới
+
+```sh
+npx nx g @nx/js:lib packages/tên-thư-viện --publishable --importPath=@monorepo/tên-thư-viện
+```
+
+## Phát hành
+
+Để phiên bản và phát hành các dự án:
+
+```sh
 npx nx release
 ```
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
+Thêm `--dry-run` để xem trước các thay đổi mà không thực sự phát hành.
 
-[Learn more about Nx release &raquo;](hhttps://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## CI/CD
 
-## Keep TypeScript project references up to date
+Dự án sử dụng các quy ước commit tuân theo chuẩn để quản lý phiên bản và tạo changelog tự động. Các loại commit được hỗ trợ:
 
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
+- `docs`: Thay đổi tài liệu
+- `chore`: Công việc bảo trì
+- `refactor`: Tái cấu trúc mã
+- `revamp`: Cải tiến module
+- `build`: Thay đổi hệ thống build
+- `ci`: Thay đổi CI
 
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
+## Tài liệu tham khảo
 
-```sh
-npx nx sync
-```
+- [Tài liệu Nx](https://nx.dev)
+- [Quản lý phát hành với Nx](https://nx.dev/features/manage-releases)
+- [Cộng đồng Nx](https://go.nx.dev/community)
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+## Giấy phép
 
-```sh
-npx nx sync:check
-```
-
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
-
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+MIT
