@@ -1,0 +1,22 @@
+{
+  "name": "api",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "api",
+  "implicitDependencies": [
+    "proto"
+  ],
+  "targets": {
+    "tidy": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "^tidy"
+      ],
+      "options": {
+        "cwd": "api",
+        "command": "go mod tidy"
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: thiengk563@gmail.com
+    name: Webbythien
+    url: https://webbythien.com
+  license: {}
+  title: "api.iam.v1"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:{servicePort}"
+    description: "Local Server"
+    variables:
+      servicePort:
+        default: "9000"
+        description: "The port number"
+paths:
+  /api.iam.v1.SecurityTokenAPI/TestApiGenProto:
+    post:
+      tags:
+        - api.iam.v1.SecurityTokenAPI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.iam.v1.TestApiGenProtoRequest'
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.iam.v1.TestApiGenProtoResponse'
+components:
+  schemas:
+    api.iam.v1.TestApiGenProtoRequest:
+      type: object
+      title: TestApiGenProtoRequest
+      additionalProperties: false
+    api.iam.v1.TestApiGenProtoResponse:
+      type: object
+      title: TestApiGenProtoResponse
+      additionalProperties: false
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - CodeNotFound
+          enum:
+            - CodeCanceled
+            - CodeUnknown
+            - CodeInvalidArgument
+            - CodeDeadlineExceeded
+            - CodeNotFound
+            - CodeAlreadyExists
+            - CodePermissionDenied
+            - CodeResourceExhausted
+            - CodeFailedPrecondition
+            - CodeAborted
+            - CodeOutOfRange
+            - CodeInternal
+            - CodeUnavailable
+            - CodeDataLoss
+            - CodeUnauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+      name: Authorization
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    CookieAuth:
+      type: apiKey
+      scheme: bearer
+      in: cookie
+      name: accessToken
+tags:
+  - name: api.iam.v1.SecurityTokenAPI
+security: []
+externalDocs: {}
