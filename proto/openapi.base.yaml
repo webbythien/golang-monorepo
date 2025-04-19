@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: thiengk563@gmail.com
+    name: Webbythien
+    url: https://webbythien.com
+  license:
+    name: ""
+    url: ""
+  title: "Monorepo API v1 Documentation"
+  version: "1.0.0"
+servers:
+  # - url: "https://api.dev.com/{serviceName}"
+  #   description: "Staging Server"
+  #   variables:
+  #     serviceName:
+  #       default: "iam"
+  #       enum: ["iam", "product", "seller"]
+  #       description: "The service name"
+  - url: "http://localhost:{servicePort}"
+    description: "Local Server"
+    variables:
+      servicePort:
+        default: "9000"
+        description: "The port number"
+paths: {}
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  examples: {}
+  requestBodies: {}
+  headers:
+    x-team-id:
+      description: "The current team ID"
+      schema:
+        type: "string"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+      name: Authorization
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    CookieAuth:
+      type: apiKey
+      scheme: bearer
+      in: cookie
+      name: accessToken
+  links: {}
+  callbacks: {}
+tags: []
+security: []
+

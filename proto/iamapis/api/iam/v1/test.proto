@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package api.iam.v1;
+
+service SecurityTokenAPI {
+    rpc TestApiGenProto(TestApiGenProtoRequest) returns (TestApiGenProtoResponse) {}
+}
+
+message TestApiGenProtoRequest{
+
+}
+
+message TestApiGenProtoResponse {
+
+}

@@ -1,0 +1,17 @@
+{
+  "name": "proto.iam",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "proto/iamapis",
+  "implicitDependencies": ["proto"],
+  "targets": {
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "proto/iamapis",
+        "command": "echo 'generate iamapis'"
+      }
+    }
+  },
+  "tags": []
+}
