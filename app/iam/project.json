@@ -4,24 +4,24 @@
   "projectType": "application",
   "sourceRoot": "app/iam",
   "targets": {
-    "build": {
+   "build": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "app/iam",
         "commands": [
-          "go build -o ../../dist/iam ."
-        ]
+          "make build-dist app_name=api ARCH={args.arch}"
+        ],
+        "cwd": "app/iam",
+        "parallel": true
       }
     },
-    "serve": {
+     "serve": {
       "executor": "nx:run-commands",
       "options": {
+        "command": "make run app_name=api extra={args.extra} hot={args.hot}",
         "cwd": "app/iam",
-        "commands": [
-          "go run main.go"
-        ]
-      },
-      "dependsOn": ["build"]
+        "env": {},
+        "envFile": "app/iam/env/serve.env"
+      }
     },
     "test": {
       "executor": "nx:run-commands",

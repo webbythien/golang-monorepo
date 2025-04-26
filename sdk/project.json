@@ -4,19 +4,10 @@
   "projectType": "library",
   "sourceRoot": "sdk",
   "implicitDependencies": [
-    "proto.common",
     "proto.iam",
-    "sdk.activity",
     "sdk.api",
     "sdk.conf",
-    "sdk.feature",
-    "sdk.i18n",
-    "sdk.money",
-    "sdk.must",
-    "sdk.oidc",
-    "sdk.payment",
-    "sdk.static",
-    "sdk.worker"
+    "sdk.must"
   ],
   "targets": {
     "test": {
