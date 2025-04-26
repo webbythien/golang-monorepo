@@ -1,0 +1,8 @@
+{
+  "name": "sdk.must",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "sdk.must",
+  "targets": {},
+  "tags": []
+}

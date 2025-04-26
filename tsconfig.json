@@ -5,6 +5,12 @@
   "references": [
     {
       "path": "./proto"
+    },
+    {
+      "path": "./libs/mylib"
+    },
+    {
+      "path": "./libs/mylib"
     }
   ]
 }

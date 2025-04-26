@@ -7,16 +7,9 @@
       "{projectRoot}/**/go.*",
       "!{projectRoot}/**/*_test.go"
     ],
-    "includedAssets": [
-      "{projectRoot}/assets/*"
-    ],
-    "goDists": [
-      "{projectRoot}/dist/*"
-    ],
-    "protoDeps": [
-      "{projectRoot}/**/*.proto",
-      "{projectRoot}/**/buf.*"
-    ]
+    "includedAssets": ["{projectRoot}/assets/*"],
+    "goDists": ["{projectRoot}/dist/*"],
+    "protoDeps": ["{projectRoot}/**/*.proto", "{projectRoot}/**/buf.*"]
   },
   "git": {
     "commit": {
@@ -25,73 +18,46 @@
   },
   "targetDefaults": {
     "setup": {
-      "dependsOn": [
-        "^setup"
-      ]
+      "dependsOn": ["^setup"]
     },
     "generate": {
-      "dependsOn": [
-        "^generate",
-        "setup"
-      ],
+      "dependsOn": ["^generate", "setup"],
       "cache": true
     },
     "tidy": {
-      "dependsOn": [
-        "generate",
-        "^tidy"
-      ],
+      "dependsOn": ["generate", "^tidy"],
       "cache": true
     },
     "lint": {
       "cache": true,
-      "inputs": [
-        "goDeps"
-      ],
+      "inputs": ["goDeps"],
       "options": {
         "parallel": false
       }
     },
     "test": {
       "cache": true,
-      "inputs": [
-        "goDeps",
-        "^goDeps"
-      ],
-      "dependsOn": [
-        "^test",
-        "mock",
-        "^mock"
-      ]
+      "inputs": ["goDeps", "^goDeps"],
+      "dependsOn": ["^test", "mock", "^mock"]
     },
     "e2e": {
       "cache": true,
-      "inputs": [
-        "goDeps",
-        "^goDeps"
-      ],
-      "dependsOn": [
-        "^e2e",
-        "test"
-      ]
+      "inputs": ["goDeps", "^goDeps"],
+      "dependsOn": ["^e2e", "test"]
     },
     "build": {
       "cache": false,
-      "inputs": [
-        "goDeps",
-        "includedAssets",
-        "^goDeps",
-        "^includedAssets"      
-      ]
+      "inputs": ["goDeps", "includedAssets", "^goDeps", "^includedAssets"]
     },
     "dockerize": {
-      "inputs": [
-        "goDists"
-      ],
-      "dependsOn": [
-        "build"
-      ],
+      "inputs": ["goDists"],
+      "dependsOn": ["build"],
       "cache": false
+    },
+    "@nx/js:swc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "release": {
@@ -135,10 +101,7 @@
         }
       }
     },
-    "projects": [
-      "app.iam",
-      "app.chat"
-    ],
+    "projects": ["app.iam", "app.chat"],
     "version": {
       "generatorOptions": {
         "currentVersionResolver": "git-tag",
@@ -172,4 +135,3 @@
     "version": "19.2.1"
   }
 }
-

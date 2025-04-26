@@ -1,0 +1,8 @@
+{
+  "name": "sdk.conf",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "sdk.conf",
+  "targets": {},
+  "tags": []
+}

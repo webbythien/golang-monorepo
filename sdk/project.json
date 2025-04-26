@@ -1,0 +1,61 @@
+{
+  "name": "sdk",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "sdk",
+  "implicitDependencies": [
+    "proto.common",
+    "proto.iam",
+    "sdk.activity",
+    "sdk.api",
+    "sdk.conf",
+    "sdk.feature",
+    "sdk.i18n",
+    "sdk.money",
+    "sdk.must",
+    "sdk.oidc",
+    "sdk.payment",
+    "sdk.static",
+    "sdk.worker"
+  ],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "sdk",
+        "command": "make test"
+      }
+    },
+    "tidy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "sdk",
+        "command": "make tidy"
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "sdk",
+        "command": "make generate"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "inputs": ["goDeps"],
+      "options": {
+        "cwd": "sdk",
+        "command": "make lint"
+      }
+    },
+    "lint-fix": {
+      "executor": "nx:run-commands",
+      "inputs": ["goDeps"],
+      "options": {
+        "cwd": "sdk",
+        "command": "make lint-fix"
+      }
+    }
+  },
+  "tags": []
+}
