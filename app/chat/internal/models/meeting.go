@@ -1,0 +1,54 @@
+package models
+
+import "time"
+
+var _ = registerAutoMigrate(&Meeting{}, &Participant{})
+
+type Meeting struct {
+	ID              uint64        `gorm:"primaryKey;autoIncrement" db:"id" json:"id"`
+	HostUserID      string        `gorm:"type:text;not null" db:"host_user_id" json:"host_user_id"`
+	Title           string        `gorm:"type:text" db:"title" json:"title"`
+	ScheduledStart  time.Time     `gorm:"type:timestamptz" db:"scheduled_start" json:"scheduled_start"`
+	ScheduledEnd    time.Time     `gorm:"type:timestamptz" db:"scheduled_end" json:"scheduled_end"`
+	IsRecurring     bool          `gorm:"default:false" db:"is_recurring" json:"is_recurring"`
+	MeetingCode     string        `gorm:"type:text;unique;not null" db:"meeting_code" json:"meeting_code"`
+	CreatedAt       time.Time     `gorm:"autoCreateTime" db:"created_at" json:"created_at"`
+	UpdatedAt       time.Time     `gorm:"autoUpdateTime" db:"updated_at" json:"updated_at"`
+	DurationMinutes int64         `gorm:"type:text;not null" json:"duration_minutes,omitempty"`
+	Status          MeetingStatus `gorm:"type:text;not null;default:in-progress" db:"status" json:"status"`
+
+	// Participants []*Participant `gorm:"-" json:"participants,omitempty"`
+}
+
+func (Meeting) TableName() string {
+	return "meetings"
+}
+
+type MeetingStatus string
+
+const (
+	MeetingStatusInProgress MeetingStatus = "in-progress"
+	MeetingStatusClosed     MeetingStatus = "closed"
+)
+
+type Participant struct {
+	ID          uint64          `gorm:"primaryKey;autoIncrement" db:"id" json:"id"`
+	MeetingCode string          `gorm:"type:varchar;not null;index" db:"meeting_code" json:"meeting_code"`
+	UserID      string          `gorm:"type:varchar;not null;index" db:"user_id" json:"user_id"`
+	Role        RoleParticipant `gorm:"type:text;default:participant" db:"role" json:"role"`
+	JoinedAt    time.Time       `gorm:"type:timestamptz;autoCreateTime" db:"joined_at" json:"joined_at"`
+	LeftAt      *time.Time      `gorm:"type:timestamptz" db:"left_at" json:"left_at,omitempty"`
+
+	// Meeting *Meeting `gorm:"-" json:"meeting,omitempty"`
+}
+
+func (Participant) TableName() string {
+	return "participants"
+}
+
+type RoleParticipant string
+
+const (
+	RoleParticipantParticipant RoleParticipant = "participant"
+	RoleParticipantHost        RoleParticipant = "host"
+)
