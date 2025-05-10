@@ -2,8 +2,6 @@ module github.com/monorepo/app/iam
 
 go 1.24.1
 
-replace monorepo/api => ../../api
-
 replace (
 	github.com/webbythien/monorepo/api => ../../api
 	github.com/webbythien/monorepo/backend => ../../backend
@@ -15,9 +13,9 @@ replace (
 require (
 	connectrpc.com/connect v1.18.1
 	github.com/spf13/cobra v1.9.1
+	github.com/webbythien/monorepo/api v0.0.0-00010101000000-000000000000
 	github.com/webbythien/monorepo/pkg v0.0.0-00010101000000-000000000000
 	github.com/webbythien/monorepo/sdk v0.0.0-00010101000000-000000000000
-	monorepo/api v0.0.0-00010101000000-000000000000
 )
 
 require (

@@ -10,7 +10,7 @@ managed:
       module: buf.build/bufbuild/protovalidate
   override:
     - file_option: go_package_prefix
-      value: monorepo
+      value: github.com/webbythien/monorepo
 plugins:
   - remote: buf.build/connectrpc/go:v1.18.1
     out: ..

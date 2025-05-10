@@ -11,5 +11,5 @@ message TestApiGenProtoRequest{
 }
 
 message TestApiGenProtoResponse {
-
+    string msg = 1; 
 }

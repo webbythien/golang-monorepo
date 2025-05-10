@@ -2,8 +2,10 @@ package services
 
 import (
 	"context"
-	iamv1 "monorepo/api/iam/v1"
-	"monorepo/api/iam/v1/iamv1connect"
+	"fmt"
+
+	iamv1 "github.com/webbythien/monorepo/api/iam/v1"
+	"github.com/webbythien/monorepo/api/iam/v1/iamv1connect"
 
 	"connectrpc.com/connect"
 )
@@ -18,6 +20,8 @@ func NewIamTest() *IamTest {
 }
 
 func (i *IamTest) TestApiGenProto(ctx context.Context, c *connect.Request[iamv1.TestApiGenProtoRequest]) (*connect.Response[iamv1.TestApiGenProtoResponse], error) {
-
-	return nil, nil
+	fmt.Println("TestApiGenProto", c.Msg)
+	return connect.NewResponse(&iamv1.TestApiGenProtoResponse{
+		Msg: "OK",
+	}), nil
 }

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package api.chat.v1;
+
+service ChatAPI {
+    rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+}
+
+message CreateRoomRequest {
+    string name = 1;
+}
+
+message CreateRoomResponse {
+    string id = 1;
+}

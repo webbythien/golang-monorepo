@@ -1,13 +1,15 @@
 # For details on buf.yaml configuration, visit https://buf.build/docs/configuration/v2/buf-yaml
 version: v2
 modules:
-  - path: iamapis
-    name: buf.build/monorepo/iamapis
+- path: iamapis
+  name: buf.build/monorepo/iamapis
+- path: chatapis
+  name: buf.build/monorepo/chatapis
 lint:
   use:
-    - BASIC
+  - BASIC
   except:
-    - FIELD_NOT_REQUIRED
+  - FIELD_NOT_REQUIRED
   enum_zero_value_suffix: _UNSPECIFIED
   rpc_allow_same_request_response: false
   rpc_allow_google_protobuf_empty_requests: false
@@ -16,7 +18,7 @@ lint:
   disallow_comment_ignores: true
 breaking:
   use:
-    - FILE
+  - FILE
   except:
-    - EXTENSION_NO_DELETE
-    - FIELD_SAME_DEFAULT
+  - EXTENSION_NO_DELETE
+  - FIELD_SAME_DEFAULT

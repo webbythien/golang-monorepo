@@ -5,7 +5,7 @@ info:
     name: Webbythien
     url: https://webbythien.com
   license: {}
-  title: "api.iam.v1"
+  title: "api.chat.v1"
   version: "1.0.0"
 servers:
   - url: "http://localhost:{servicePort}"
@@ -15,12 +15,12 @@ servers:
         default: "9000"
         description: "The port number"
 paths:
-  /api.iam.v1.SecurityTokenAPI/TestApiGenProto:
+  /api.chat.v1.ChatAPI/CreateRoom:
     post:
       tags:
-        - api.iam.v1.SecurityTokenAPI
-      summary: TestApiGenProto
-      operationId: api.iam.v1.SecurityTokenAPI.TestApiGenProto
+        - api.chat.v1.ChatAPI
+      summary: CreateRoom
+      operationId: api.chat.v1.ChatAPI.CreateRoom
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -35,7 +35,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/api.iam.v1.TestApiGenProtoRequest'
+              $ref: '#/components/schemas/api.chat.v1.CreateRoomRequest'
         required: true
       responses:
         default:
@@ -49,20 +49,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/api.iam.v1.TestApiGenProtoResponse'
+                $ref: '#/components/schemas/api.chat.v1.CreateRoomResponse'
 components:
   schemas:
-    api.iam.v1.TestApiGenProtoRequest:
-      type: object
-      title: TestApiGenProtoRequest
-      additionalProperties: false
-    api.iam.v1.TestApiGenProtoResponse:
+    api.chat.v1.CreateRoomRequest:
       type: object
       properties:
-        msg:
+        name:
           type: string
-          title: msg
-      title: TestApiGenProtoResponse
+          title: name
+      title: CreateRoomRequest
+      additionalProperties: false
+    api.chat.v1.CreateRoomResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+      title: CreateRoomResponse
       additionalProperties: false
     connect-protocol-version:
       type: number
@@ -138,5 +142,5 @@ components:
       in: cookie
       name: accessToken
 tags:
-  - name: api.iam.v1.SecurityTokenAPI
+  - name: api.chat.v1.ChatAPI
 security: []

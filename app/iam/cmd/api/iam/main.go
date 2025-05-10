@@ -4,10 +4,15 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net/http"
 
+	"connectrpc.com/connect"
 	"github.com/monorepo/app/iam/config"
+	"github.com/monorepo/app/iam/internal/services"
 	"github.com/spf13/cobra"
+	"github.com/webbythien/monorepo/api/iam/v1/iamv1connect"
 	"github.com/webbythien/monorepo/pkg/l"
+	"github.com/webbythien/monorepo/sdk/api/server"
 	"github.com/webbythien/monorepo/sdk/must"
 )
 
@@ -35,5 +40,18 @@ func run(ctx context.Context, _ []string) error {
 
 	// Implemt API
 	fmt.Println("DB Connection: Done: ", db)
-	return nil
+
+	srv := server.New(cfg.Server)
+	err := srv.Register(func(mux *http.ServeMux) {
+		opts := append(srv.WithRecommendedOptions(), connect.WithInterceptors(
+		// Implement after
+		))
+		// mux.Handle(iamv1connect.NewStaffAccessAPIHandler(staffAccessAPI, opts...))
+		mux.Handle(iamv1connect.NewSecurityTokenAPIHandler(services.NewIamTest(), opts...))
+
+	})
+	if err != nil {
+		return err
+	}
+	return srv.ListenAndServe(ctx)
 }
