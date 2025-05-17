@@ -3,19 +3,19 @@ module github.com/monorepo/app/iam
 go 1.24.1
 
 replace (
-	github.com/webbythien/monorepo/api => ../../api
-	github.com/webbythien/monorepo/backend => ../../backend
-	github.com/webbythien/monorepo/common => ../../common
-	github.com/webbythien/monorepo/pkg => ../../pkg
-	github.com/webbythien/monorepo/sdk => ../../sdk
+	github.com/monorepo/api => ../../api
+	github.com/monorepo/backend => ../../backend
+	github.com/monorepo/common => ../../common
+	github.com/monorepo/pkg => ../../pkg
+	github.com/monorepo/sdk => ../../sdk
 )
 
 require (
 	connectrpc.com/connect v1.18.1
+	github.com/monorepo/api v0.0.0-00010101000000-000000000000
+	github.com/monorepo/pkg v0.0.0-00010101000000-000000000000
+	github.com/monorepo/sdk v0.0.0-00010101000000-000000000000
 	github.com/spf13/cobra v1.9.1
-	github.com/webbythien/monorepo/api v0.0.0-00010101000000-000000000000
-	github.com/webbythien/monorepo/pkg v0.0.0-00010101000000-000000000000
-	github.com/webbythien/monorepo/sdk v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -84,5 +84,5 @@ require (
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/postgres v1.5.11 // indirect
-	gorm.io/gorm v1.26.0 // indirect
+	gorm.io/gorm v1.26.1 // indirect
 )

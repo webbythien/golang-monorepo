@@ -1,11 +1,11 @@
-module github.com/webbythien/monorepo/sdk
+module github.com/monorepo/sdk
 
 go 1.24.1
 
 replace (
-	github.com/webbythien/monorepo/backend => ../backend
-	github.com/webbythien/monorepo/common => ../common
-	github.com/webbythien/monorepo/pkg => ../pkg
+	github.com/monorepo/backend => ../backend
+	github.com/monorepo/common => ../common
+	github.com/monorepo/pkg => ../pkg
 )
 
 require (
@@ -14,17 +14,17 @@ require (
 	connectrpc.com/validate v0.2.0
 	github.com/aws/aws-sdk-go v1.55.7
 	github.com/go-sql-driver/mysql v1.9.2
+	github.com/monorepo/pkg v0.0.0-00010101000000-000000000000
 	github.com/prometheus/client_golang v1.22.0
 	github.com/spf13/viper v1.20.1
 	github.com/uptrace/opentelemetry-go-extra/otelgorm v0.3.2
-	github.com/webbythien/monorepo/pkg v0.0.0-00010101000000-000000000000
 	go.opentelemetry.io/otel v1.35.0
 	go.opentelemetry.io/otel/exporters/prometheus v0.57.0
 	go.opentelemetry.io/otel/sdk/metric v1.35.0
 	golang.org/x/net v0.39.0
 	google.golang.org/protobuf v1.36.6
 	gorm.io/driver/postgres v1.5.11
-	gorm.io/gorm v1.26.0
+	gorm.io/gorm v1.26.1
 )
 
 require (

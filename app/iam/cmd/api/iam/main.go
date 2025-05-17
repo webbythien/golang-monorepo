@@ -7,13 +7,13 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
+	"github.com/monorepo/api/iam/v1/iamv1connect"
 	"github.com/monorepo/app/iam/config"
 	"github.com/monorepo/app/iam/internal/services"
+	"github.com/monorepo/pkg/l"
+	"github.com/monorepo/sdk/api/server"
+	"github.com/monorepo/sdk/must"
 	"github.com/spf13/cobra"
-	"github.com/webbythien/monorepo/api/iam/v1/iamv1connect"
-	"github.com/webbythien/monorepo/pkg/l"
-	"github.com/webbythien/monorepo/sdk/api/server"
-	"github.com/webbythien/monorepo/sdk/must"
 )
 
 var Command = &cobra.Command{
@@ -28,14 +28,14 @@ var Command = &cobra.Command{
 }
 
 func run(ctx context.Context, _ []string) error {
-	var cfg = config.Load()
-	var ll = l.New()
+	cfg := config.Load()
+	ll := l.New()
 	ll.Debug("Config loaded", l.Object("configs", cfg))
 
 	// ================== Initiate all dependencies ==================
-	var (
-		db = must.ConnectPostgreSQL(cfg.PostgreSQL)
-	)
+
+	db := must.ConnectPostgreSQL(cfg.PostgreSQL)
+
 	ll.Info("Init DB Connection: Done")
 
 	// Implemt API
@@ -48,7 +48,6 @@ func run(ctx context.Context, _ []string) error {
 		))
 		// mux.Handle(iamv1connect.NewStaffAccessAPIHandler(staffAccessAPI, opts...))
 		mux.Handle(iamv1connect.NewSecurityTokenAPIHandler(services.NewIamTest(), opts...))
-
 	})
 	if err != nil {
 		return err

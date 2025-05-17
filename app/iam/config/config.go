@@ -3,8 +3,8 @@ package config
 import (
 	_ "embed"
 
-	"github.com/webbythien/monorepo/sdk/conf"
-	"github.com/webbythien/monorepo/sdk/must"
+	"github.com/monorepo/sdk/conf"
+	"github.com/monorepo/sdk/must"
 )
 
 //go:embed config.yaml

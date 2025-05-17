@@ -7,9 +7,9 @@ service ChatAPI {
 }
 
 message CreateRoomRequest {
-    string name = 1;
+    string title = 1;
 }
 
 message CreateRoomResponse {
-    string id = 1;
+    string meeting_code = 1;
 }

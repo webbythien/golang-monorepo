@@ -19,7 +19,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/webbythien/monorepo/pkg/prettylog"
+	"github.com/monorepo/pkg/prettylog"
 )
 
 // ConsoleEncoderName ...

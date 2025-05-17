@@ -14,7 +14,7 @@ type Meeting struct {
 	MeetingCode     string        `gorm:"type:text;unique;not null" db:"meeting_code" json:"meeting_code"`
 	CreatedAt       time.Time     `gorm:"autoCreateTime" db:"created_at" json:"created_at"`
 	UpdatedAt       time.Time     `gorm:"autoUpdateTime" db:"updated_at" json:"updated_at"`
-	DurationMinutes int64         `gorm:"type:text;not null" json:"duration_minutes,omitempty"`
+	DurationMinutes int64         `gorm:"type:BIGINT;not null" json:"duration_minutes,omitempty"`
 	Status          MeetingStatus `gorm:"type:text;not null;default:in-progress" db:"status" json:"status"`
 
 	// Participants []*Participant `gorm:"-" json:"participants,omitempty"`

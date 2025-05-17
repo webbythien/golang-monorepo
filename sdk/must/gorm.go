@@ -7,10 +7,10 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
+	"github.com/monorepo/pkg/l"
+	"github.com/monorepo/pkg/watcher"
+	"github.com/monorepo/sdk/conf"
 	"github.com/uptrace/opentelemetry-go-extra/otelgorm"
-	"github.com/webbythien/monorepo/pkg/l"
-	"github.com/webbythien/monorepo/pkg/watcher"
-	"github.com/webbythien/monorepo/sdk/conf"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -50,7 +50,7 @@ func ConnectPostgreSQL(cfg *conf.PostgreSQL) *gorm.DB {
 		logMode = logger.Info
 	}
 	db, err := gorm.Open(postgres.Open(cfg.FormatDSN()), &gorm.Config{
-		//Logger: zapgorm.New(ll.Logger).LogMode(logMode),
+		// Logger: zapgorm.New(ll.Logger).LogMode(logMode),
 		Logger: logger.Default.LogMode(logMode),
 	})
 	if err != nil {

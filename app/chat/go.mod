@@ -3,20 +3,22 @@ module github.com/monorepo/app/chat
 go 1.24.1
 
 replace (
-	github.com/webbythien/monorepo/api => ../../api
-	github.com/webbythien/monorepo/pkg => ../../pkg
-	github.com/webbythien/monorepo/sdk => ../../sdk
+	github.com/monorepo/api => ../../api
+	github.com/monorepo/pkg => ../../pkg
+	github.com/monorepo/sdk => ../../sdk
 )
 
 require (
 	connectrpc.com/connect v1.18.1
+	github.com/monorepo/api v0.0.0-00010101000000-000000000000
+	github.com/monorepo/pkg v0.0.0-00010101000000-000000000000
+	github.com/monorepo/sdk v0.0.0-00010101000000-000000000000
 	github.com/spf13/cobra v1.9.1
-	github.com/webbythien/monorepo/api v0.0.0-00010101000000-000000000000
-	github.com/webbythien/monorepo/pkg v0.0.0-00010101000000-000000000000
-	github.com/webbythien/monorepo/sdk v0.0.0-00010101000000-000000000000
 )
 
 require (
+	ariga.io/atlas-go-sdk v0.6.8 // indirect
+	ariga.io/atlas-provider-gorm v0.5.1 // indirect
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.4-20250130201111-63bb56e20495.1 // indirect
 	cel.dev/expr v0.19.1 // indirect
 	connectrpc.com/otelconnect v0.7.2 // indirect
@@ -32,6 +34,8 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-sql-driver/mysql v1.9.2 // indirect
 	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
+	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
+	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/google/cel-go v0.23.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -45,6 +49,8 @@ require (
 	github.com/k0kubun/pp/v3 v3.4.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
+	github.com/mattn/go-sqlite3 v1.14.22 // indirect
+	github.com/microsoft/go-mssqldb v1.7.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/prometheus/client_golang v1.22.0 // indirect
@@ -81,6 +87,9 @@ require (
 	google.golang.org/grpc v1.71.1 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gorm.io/driver/mysql v1.5.7 // indirect
 	gorm.io/driver/postgres v1.5.11 // indirect
-	gorm.io/gorm v1.26.0 // indirect
+	gorm.io/driver/sqlite v1.5.7 // indirect
+	gorm.io/driver/sqlserver v1.5.4 // indirect
+	gorm.io/gorm v1.26.1 // indirect
 )

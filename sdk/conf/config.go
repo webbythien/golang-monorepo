@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 
-	"github.com/webbythien/monorepo/sdk/api/server"
+	"github.com/monorepo/sdk/api/server"
 )
 
 type NextBackend struct {

@@ -14,7 +14,7 @@ service_name: iam_service
 postgresql:
   host: localhost
   port: 5432
-  database: postgres
+  database: chat-service
   username: postgres
   password: dev-test
   sslmode: disable

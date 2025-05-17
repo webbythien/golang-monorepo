@@ -4,16 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	iamv1 "github.com/webbythien/monorepo/api/iam/v1"
-	"github.com/webbythien/monorepo/api/iam/v1/iamv1connect"
+	iamv1 "github.com/monorepo/api/iam/v1"
+	"github.com/monorepo/api/iam/v1/iamv1connect"
 
 	"connectrpc.com/connect"
 )
 
 var _ iamv1connect.SecurityTokenAPIHandler = &IamTest{}
 
-type IamTest struct {
-}
+type IamTest struct{}
 
 func NewIamTest() *IamTest {
 	return &IamTest{}

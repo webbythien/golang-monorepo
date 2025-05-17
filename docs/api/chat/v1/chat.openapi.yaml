@@ -55,17 +55,17 @@ components:
     api.chat.v1.CreateRoomRequest:
       type: object
       properties:
-        name:
+        title:
           type: string
-          title: name
+          title: title
       title: CreateRoomRequest
       additionalProperties: false
     api.chat.v1.CreateRoomResponse:
       type: object
       properties:
-        id:
+        meetingCode:
           type: string
-          title: id
+          title: meeting_code
       title: CreateRoomResponse
       additionalProperties: false
     connect-protocol-version:

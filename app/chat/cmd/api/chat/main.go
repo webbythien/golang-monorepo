@@ -6,14 +6,14 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
+	"github.com/monorepo/api/chat/v1/chatv1connect"
 	"github.com/monorepo/app/chat/config"
-	"github.com/spf13/cobra"
-	"github.com/webbythien/monorepo/pkg/l"
-	"github.com/webbythien/monorepo/sdk/api/server"
-	"github.com/webbythien/monorepo/api/chat/v1/chatv1connect"
+	"github.com/monorepo/app/chat/internal/repositories"
 	"github.com/monorepo/app/chat/internal/services"
-	"github.com/webbythien/monorepo/sdk/must"
-	"fmt"
+	"github.com/monorepo/pkg/l"
+	"github.com/monorepo/sdk/api/server"
+	"github.com/monorepo/sdk/must"
+	"github.com/spf13/cobra"
 )
 
 var Command = &cobra.Command{
@@ -28,23 +28,21 @@ var Command = &cobra.Command{
 }
 
 func run(ctx context.Context, _ []string) error {
-
-	var cfg = config.Load()
-	var ll = l.New()
+	cfg := config.Load()
+	ll := l.New()
 	ll.Debug("Config loaded", l.Object("configs", cfg))
 
-	var (
-		db = must.ConnectPostgreSQL(cfg.PostgreSQL)
-	)
+	db := must.ConnectPostgreSQL(cfg.PostgreSQL)
 	ll.Info("Init DB Connection: Done")
-	fmt.Println("DB: ", db)
+
+	meetingStore := repositories.NewMeetingStore(db)
+
 	srv := server.New(cfg.Server)
 	err := srv.Register(func(mux *http.ServeMux) {
 		opts := append(srv.WithRecommendedOptions(), connect.WithInterceptors(
 		// Implement after
 		))
-		mux.Handle(chatv1connect.NewChatAPIHandler(services.NewChatAPI(), opts...))
-
+		mux.Handle(chatv1connect.NewChatAPIHandler(services.NewChatAPI(meetingStore), opts...))
 	})
 	if err != nil {
 		return err
