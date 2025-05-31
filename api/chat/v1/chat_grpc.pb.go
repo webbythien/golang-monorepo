@@ -19,14 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ChatAPI_CreateRoom_FullMethodName = "/api.chat.v1.ChatAPI/CreateRoom"
+	ChatAPI_UserCreateMeeting_FullMethodName = "/api.chat.v1.ChatAPI/UserCreateMeeting"
+	ChatAPI_UserJoinMeeting_FullMethodName   = "/api.chat.v1.ChatAPI/UserJoinMeeting"
 )
 
 // ChatAPIClient is the client API for ChatAPI service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatAPIClient interface {
-	CreateRoom(ctx context.Context, in *CreateRoomRequest, opts ...grpc.CallOption) (*CreateRoomResponse, error)
+	UserCreateMeeting(ctx context.Context, in *UserCreateMeetingRequest, opts ...grpc.CallOption) (*UserCreateMeetingResponse, error)
+	// rpc TestAPI(TestAPIRequest) returns (TestAPIResponse) {} // POST
+	//
+	//	rpc GetMeeting(GetMeetingRequest) returns (GetMeetingResponse) {
+	//	    option idempotency_level = NO_SIDE_EFFECTS;
+	//	}
+	UserJoinMeeting(ctx context.Context, in *UserJoinMeetingRequest, opts ...grpc.CallOption) (*UserJoinMeetingResponse, error)
 }
 
 type chatAPIClient struct {
@@ -37,10 +44,20 @@ func NewChatAPIClient(cc grpc.ClientConnInterface) ChatAPIClient {
 	return &chatAPIClient{cc}
 }
 
-func (c *chatAPIClient) CreateRoom(ctx context.Context, in *CreateRoomRequest, opts ...grpc.CallOption) (*CreateRoomResponse, error) {
+func (c *chatAPIClient) UserCreateMeeting(ctx context.Context, in *UserCreateMeetingRequest, opts ...grpc.CallOption) (*UserCreateMeetingResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateRoomResponse)
-	err := c.cc.Invoke(ctx, ChatAPI_CreateRoom_FullMethodName, in, out, cOpts...)
+	out := new(UserCreateMeetingResponse)
+	err := c.cc.Invoke(ctx, ChatAPI_UserCreateMeeting_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chatAPIClient) UserJoinMeeting(ctx context.Context, in *UserJoinMeetingRequest, opts ...grpc.CallOption) (*UserJoinMeetingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserJoinMeetingResponse)
+	err := c.cc.Invoke(ctx, ChatAPI_UserJoinMeeting_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +68,13 @@ func (c *chatAPIClient) CreateRoom(ctx context.Context, in *CreateRoomRequest, o
 // All implementations should embed UnimplementedChatAPIServer
 // for forward compatibility.
 type ChatAPIServer interface {
-	CreateRoom(context.Context, *CreateRoomRequest) (*CreateRoomResponse, error)
+	UserCreateMeeting(context.Context, *UserCreateMeetingRequest) (*UserCreateMeetingResponse, error)
+	// rpc TestAPI(TestAPIRequest) returns (TestAPIResponse) {} // POST
+	//
+	//	rpc GetMeeting(GetMeetingRequest) returns (GetMeetingResponse) {
+	//	    option idempotency_level = NO_SIDE_EFFECTS;
+	//	}
+	UserJoinMeeting(context.Context, *UserJoinMeetingRequest) (*UserJoinMeetingResponse, error)
 }
 
 // UnimplementedChatAPIServer should be embedded to have
@@ -61,8 +84,11 @@ type ChatAPIServer interface {
 // pointer dereference when methods are called.
 type UnimplementedChatAPIServer struct{}
 
-func (UnimplementedChatAPIServer) CreateRoom(context.Context, *CreateRoomRequest) (*CreateRoomResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateRoom not implemented")
+func (UnimplementedChatAPIServer) UserCreateMeeting(context.Context, *UserCreateMeetingRequest) (*UserCreateMeetingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserCreateMeeting not implemented")
+}
+func (UnimplementedChatAPIServer) UserJoinMeeting(context.Context, *UserJoinMeetingRequest) (*UserJoinMeetingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserJoinMeeting not implemented")
 }
 func (UnimplementedChatAPIServer) testEmbeddedByValue() {}
 
@@ -84,20 +110,38 @@ func RegisterChatAPIServer(s grpc.ServiceRegistrar, srv ChatAPIServer) {
 	s.RegisterService(&ChatAPI_ServiceDesc, srv)
 }
 
-func _ChatAPI_CreateRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRoomRequest)
+func _ChatAPI_UserCreateMeeting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserCreateMeetingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatAPIServer).CreateRoom(ctx, in)
+		return srv.(ChatAPIServer).UserCreateMeeting(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChatAPI_CreateRoom_FullMethodName,
+		FullMethod: ChatAPI_UserCreateMeeting_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatAPIServer).CreateRoom(ctx, req.(*CreateRoomRequest))
+		return srv.(ChatAPIServer).UserCreateMeeting(ctx, req.(*UserCreateMeetingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChatAPI_UserJoinMeeting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserJoinMeetingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatAPIServer).UserJoinMeeting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChatAPI_UserJoinMeeting_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatAPIServer).UserJoinMeeting(ctx, req.(*UserJoinMeetingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -110,8 +154,12 @@ var ChatAPI_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ChatAPIServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateRoom",
-			Handler:    _ChatAPI_CreateRoom_Handler,
+			MethodName: "UserCreateMeeting",
+			Handler:    _ChatAPI_UserCreateMeeting_Handler,
+		},
+		{
+			MethodName: "UserJoinMeeting",
+			Handler:    _ChatAPI_UserJoinMeeting_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

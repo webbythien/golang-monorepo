@@ -1,4 +1,4 @@
-module github.com/webbythien/monorepo/api
+module github.com/monorepo/api
 
 go 1.24.1
 

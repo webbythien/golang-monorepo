@@ -33,13 +33,22 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// ChatAPICreateRoomProcedure is the fully-qualified name of the ChatAPI's CreateRoom RPC.
-	ChatAPICreateRoomProcedure = "/api.chat.v1.ChatAPI/CreateRoom"
+	// ChatAPIUserCreateMeetingProcedure is the fully-qualified name of the ChatAPI's UserCreateMeeting
+	// RPC.
+	ChatAPIUserCreateMeetingProcedure = "/api.chat.v1.ChatAPI/UserCreateMeeting"
+	// ChatAPIUserJoinMeetingProcedure is the fully-qualified name of the ChatAPI's UserJoinMeeting RPC.
+	ChatAPIUserJoinMeetingProcedure = "/api.chat.v1.ChatAPI/UserJoinMeeting"
 )
 
 // ChatAPIClient is a client for the api.chat.v1.ChatAPI service.
 type ChatAPIClient interface {
-	CreateRoom(context.Context, *connect.Request[v1.CreateRoomRequest]) (*connect.Response[v1.CreateRoomResponse], error)
+	UserCreateMeeting(context.Context, *connect.Request[v1.UserCreateMeetingRequest]) (*connect.Response[v1.UserCreateMeetingResponse], error)
+	// rpc TestAPI(TestAPIRequest) returns (TestAPIResponse) {} // POST
+	//
+	//	rpc GetMeeting(GetMeetingRequest) returns (GetMeetingResponse) {
+	//	    option idempotency_level = NO_SIDE_EFFECTS;
+	//	}
+	UserJoinMeeting(context.Context, *connect.Request[v1.UserJoinMeetingRequest]) (*connect.Response[v1.UserJoinMeetingResponse], error)
 }
 
 // NewChatAPIClient constructs a client for the api.chat.v1.ChatAPI service. By default, it uses the
@@ -53,10 +62,16 @@ func NewChatAPIClient(httpClient connect.HTTPClient, baseURL string, opts ...con
 	baseURL = strings.TrimRight(baseURL, "/")
 	chatAPIMethods := v1.File_api_chat_v1_chat_proto.Services().ByName("ChatAPI").Methods()
 	return &chatAPIClient{
-		createRoom: connect.NewClient[v1.CreateRoomRequest, v1.CreateRoomResponse](
+		userCreateMeeting: connect.NewClient[v1.UserCreateMeetingRequest, v1.UserCreateMeetingResponse](
 			httpClient,
-			baseURL+ChatAPICreateRoomProcedure,
-			connect.WithSchema(chatAPIMethods.ByName("CreateRoom")),
+			baseURL+ChatAPIUserCreateMeetingProcedure,
+			connect.WithSchema(chatAPIMethods.ByName("UserCreateMeeting")),
+			connect.WithClientOptions(opts...),
+		),
+		userJoinMeeting: connect.NewClient[v1.UserJoinMeetingRequest, v1.UserJoinMeetingResponse](
+			httpClient,
+			baseURL+ChatAPIUserJoinMeetingProcedure,
+			connect.WithSchema(chatAPIMethods.ByName("UserJoinMeeting")),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -64,17 +79,29 @@ func NewChatAPIClient(httpClient connect.HTTPClient, baseURL string, opts ...con
 
 // chatAPIClient implements ChatAPIClient.
 type chatAPIClient struct {
-	createRoom *connect.Client[v1.CreateRoomRequest, v1.CreateRoomResponse]
+	userCreateMeeting *connect.Client[v1.UserCreateMeetingRequest, v1.UserCreateMeetingResponse]
+	userJoinMeeting   *connect.Client[v1.UserJoinMeetingRequest, v1.UserJoinMeetingResponse]
 }
 
-// CreateRoom calls api.chat.v1.ChatAPI.CreateRoom.
-func (c *chatAPIClient) CreateRoom(ctx context.Context, req *connect.Request[v1.CreateRoomRequest]) (*connect.Response[v1.CreateRoomResponse], error) {
-	return c.createRoom.CallUnary(ctx, req)
+// UserCreateMeeting calls api.chat.v1.ChatAPI.UserCreateMeeting.
+func (c *chatAPIClient) UserCreateMeeting(ctx context.Context, req *connect.Request[v1.UserCreateMeetingRequest]) (*connect.Response[v1.UserCreateMeetingResponse], error) {
+	return c.userCreateMeeting.CallUnary(ctx, req)
+}
+
+// UserJoinMeeting calls api.chat.v1.ChatAPI.UserJoinMeeting.
+func (c *chatAPIClient) UserJoinMeeting(ctx context.Context, req *connect.Request[v1.UserJoinMeetingRequest]) (*connect.Response[v1.UserJoinMeetingResponse], error) {
+	return c.userJoinMeeting.CallUnary(ctx, req)
 }
 
 // ChatAPIHandler is an implementation of the api.chat.v1.ChatAPI service.
 type ChatAPIHandler interface {
-	CreateRoom(context.Context, *connect.Request[v1.CreateRoomRequest]) (*connect.Response[v1.CreateRoomResponse], error)
+	UserCreateMeeting(context.Context, *connect.Request[v1.UserCreateMeetingRequest]) (*connect.Response[v1.UserCreateMeetingResponse], error)
+	// rpc TestAPI(TestAPIRequest) returns (TestAPIResponse) {} // POST
+	//
+	//	rpc GetMeeting(GetMeetingRequest) returns (GetMeetingResponse) {
+	//	    option idempotency_level = NO_SIDE_EFFECTS;
+	//	}
+	UserJoinMeeting(context.Context, *connect.Request[v1.UserJoinMeetingRequest]) (*connect.Response[v1.UserJoinMeetingResponse], error)
 }
 
 // NewChatAPIHandler builds an HTTP handler from the service implementation. It returns the path on
@@ -84,16 +111,24 @@ type ChatAPIHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewChatAPIHandler(svc ChatAPIHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	chatAPIMethods := v1.File_api_chat_v1_chat_proto.Services().ByName("ChatAPI").Methods()
-	chatAPICreateRoomHandler := connect.NewUnaryHandler(
-		ChatAPICreateRoomProcedure,
-		svc.CreateRoom,
-		connect.WithSchema(chatAPIMethods.ByName("CreateRoom")),
+	chatAPIUserCreateMeetingHandler := connect.NewUnaryHandler(
+		ChatAPIUserCreateMeetingProcedure,
+		svc.UserCreateMeeting,
+		connect.WithSchema(chatAPIMethods.ByName("UserCreateMeeting")),
+		connect.WithHandlerOptions(opts...),
+	)
+	chatAPIUserJoinMeetingHandler := connect.NewUnaryHandler(
+		ChatAPIUserJoinMeetingProcedure,
+		svc.UserJoinMeeting,
+		connect.WithSchema(chatAPIMethods.ByName("UserJoinMeeting")),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/api.chat.v1.ChatAPI/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case ChatAPICreateRoomProcedure:
-			chatAPICreateRoomHandler.ServeHTTP(w, r)
+		case ChatAPIUserCreateMeetingProcedure:
+			chatAPIUserCreateMeetingHandler.ServeHTTP(w, r)
+		case ChatAPIUserJoinMeetingProcedure:
+			chatAPIUserJoinMeetingHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -103,6 +138,10 @@ func NewChatAPIHandler(svc ChatAPIHandler, opts ...connect.HandlerOption) (strin
 // UnimplementedChatAPIHandler returns CodeUnimplemented from all methods.
 type UnimplementedChatAPIHandler struct{}
 
-func (UnimplementedChatAPIHandler) CreateRoom(context.Context, *connect.Request[v1.CreateRoomRequest]) (*connect.Response[v1.CreateRoomResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.chat.v1.ChatAPI.CreateRoom is not implemented"))
+func (UnimplementedChatAPIHandler) UserCreateMeeting(context.Context, *connect.Request[v1.UserCreateMeetingRequest]) (*connect.Response[v1.UserCreateMeetingResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.chat.v1.ChatAPI.UserCreateMeeting is not implemented"))
+}
+
+func (UnimplementedChatAPIHandler) UserJoinMeeting(context.Context, *connect.Request[v1.UserJoinMeetingRequest]) (*connect.Response[v1.UserJoinMeetingResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("api.chat.v1.ChatAPI.UserJoinMeeting is not implemented"))
 }

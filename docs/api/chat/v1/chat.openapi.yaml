@@ -15,12 +15,12 @@ servers:
         default: "9000"
         description: "The port number"
 paths:
-  /api.chat.v1.ChatAPI/CreateRoom:
+  /api.chat.v1.ChatAPI/UserCreateMeeting:
     post:
       tags:
         - api.chat.v1.ChatAPI
-      summary: CreateRoom
-      operationId: api.chat.v1.ChatAPI.CreateRoom
+      summary: UserCreateMeeting
+      operationId: api.chat.v1.ChatAPI.UserCreateMeeting
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -35,7 +35,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/api.chat.v1.CreateRoomRequest'
+              $ref: '#/components/schemas/api.chat.v1.UserCreateMeetingRequest'
         required: true
       responses:
         default:
@@ -49,24 +49,104 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/api.chat.v1.CreateRoomResponse'
+                $ref: '#/components/schemas/api.chat.v1.UserCreateMeetingResponse'
+  /api.chat.v1.ChatAPI/UserJoinMeeting:
+    post:
+      tags:
+        - api.chat.v1.ChatAPI
+      summary: UserJoinMeeting
+      description: |-
+        rpc TestAPI(TestAPIRequest) returns (TestAPIResponse) {} // POST
+         rpc GetMeeting(GetMeetingRequest) returns (GetMeetingResponse) {
+             option idempotency_level = NO_SIDE_EFFECTS;
+         }
+      operationId: api.chat.v1.ChatAPI.UserJoinMeeting
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api.chat.v1.UserJoinMeetingRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.chat.v1.UserJoinMeetingResponse'
 components:
   schemas:
-    api.chat.v1.CreateRoomRequest:
+    api.chat.v1.Participant:
+      type: object
+      properties:
+        userId:
+          type: string
+          title: user_id
+        role:
+          type: string
+          title: role
+      title: Participant
+      additionalProperties: false
+    api.chat.v1.UserCreateMeetingRequest:
       type: object
       properties:
         title:
           type: string
           title: title
-      title: CreateRoomRequest
+      title: UserCreateMeetingRequest
       additionalProperties: false
-    api.chat.v1.CreateRoomResponse:
+    api.chat.v1.UserCreateMeetingResponse:
       type: object
       properties:
-        meetingCode:
+        meetingId:
           type: string
-          title: meeting_code
-      title: CreateRoomResponse
+          title: meeting_id
+      title: UserCreateMeetingResponse
+      additionalProperties: false
+    api.chat.v1.UserJoinMeeting:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/api.chat.v1.Participant'
+          title: participants
+      title: UserJoinMeeting
+      additionalProperties: false
+    api.chat.v1.UserJoinMeetingRequest:
+      type: object
+      properties:
+        meetingId:
+          type: string
+          title: meeting_id
+        sdpOffer:
+          type: string
+          title: sdp_offer
+      title: UserJoinMeetingRequest
+      additionalProperties: false
+    api.chat.v1.UserJoinMeetingResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          title: message
+      title: UserJoinMeetingResponse
       additionalProperties: false
     connect-protocol-version:
       type: number

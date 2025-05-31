@@ -10,6 +10,7 @@ import (
 	"github.com/monorepo/app/chat/config"
 	"github.com/monorepo/app/chat/internal/repositories"
 	"github.com/monorepo/app/chat/internal/services"
+	"github.com/monorepo/pkg/emitter"
 	"github.com/monorepo/pkg/l"
 	"github.com/monorepo/sdk/api/server"
 	"github.com/monorepo/sdk/must"
@@ -35,6 +36,13 @@ func run(ctx context.Context, _ []string) error {
 	db := must.ConnectPostgreSQL(cfg.PostgreSQL)
 	ll.Info("Init DB Connection: Done")
 
+	emitter := must.ConnectEmitter(&emitter.EmitterConfig{
+		RedisAddr:     cfg.Redis.Addr,
+		RedisPassword: cfg.Redis.Password,
+		RedisDB:       cfg.Redis.DB,
+	})
+	ll.Info("Init Emitter Connection: Done")
+
 	meetingStore := repositories.NewMeetingStore(db)
 
 	srv := server.New(cfg.Server)
@@ -42,7 +50,7 @@ func run(ctx context.Context, _ []string) error {
 		opts := append(srv.WithRecommendedOptions(), connect.WithInterceptors(
 		// Implement after
 		))
-		mux.Handle(chatv1connect.NewChatAPIHandler(services.NewChatAPI(meetingStore), opts...))
+		mux.Handle(chatv1connect.NewChatAPIHandler(services.NewChatAPI(meetingStore, emitter), opts...))
 	})
 	if err != nil {
 		return err

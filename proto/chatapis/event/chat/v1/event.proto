@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package event.chat.v1;
+
+enum Event {
+    EVENT_SOCKET_JOIN_MEETING = 0;
+}

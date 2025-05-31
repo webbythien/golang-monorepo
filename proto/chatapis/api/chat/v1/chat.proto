@@ -3,13 +3,43 @@ syntax = "proto3";
 package api.chat.v1;
 
 service ChatAPI {
-    rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+    rpc UserCreateMeeting(UserCreateMeetingRequest) returns (UserCreateMeetingResponse) {}
+    // rpc TestAPI(TestAPIRequest) returns (TestAPIResponse) {} // POST
+    // rpc GetMeeting(GetMeetingRequest) returns (GetMeetingResponse) {
+    //     option idempotency_level = NO_SIDE_EFFECTS;
+    // }
+    rpc UserJoinMeeting(UserJoinMeetingRequest) returns (UserJoinMeetingResponse) {}
 }
 
-message CreateRoomRequest {
+message UserCreateMeetingRequest {
     string title = 1;
 }
 
-message CreateRoomResponse {
-    string meeting_code = 1;
+message UserCreateMeetingResponse {
+    string meeting_id = 1;
 }
+
+
+message UserJoinMeetingRequest {
+    string meeting_id = 1;
+    string sdp_offer = 2;
+}
+
+message UserJoinMeetingResponse {
+    string message = 1;
+}
+
+message UserJoinMeeting {
+    repeated Participant participants = 1;
+}
+
+message Participant {
+    string user_id = 1;
+    string role = 2;
+}
+
+// A -> B 
+// A return waiting access from B
+// B accept -> BE store DB is access A -> socket send to A offer of room A wanna join
+// store sdp temp of A waiting access from B
+// use redis to store sdp temp of A waiting access from B

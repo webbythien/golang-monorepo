@@ -3,6 +3,7 @@ package config
 import (
 	_ "embed"
 
+	"github.com/monorepo/pkg/cache"
 	"github.com/monorepo/sdk/conf"
 	"github.com/monorepo/sdk/must"
 )
@@ -12,7 +13,8 @@ var defaultConfig []byte
 
 type Config struct {
 	conf.Base  `mapstructure:",squash"`
-	PostgreSQL *conf.PostgreSQL `yaml:"postgresql" mapstructure:"postgresql"`
+	PostgreSQL *conf.PostgreSQL   `yaml:"postgresql" mapstructure:"postgresql"`
+	Redis      *cache.RedisConfig `yaml:"redis" mapstructure:"redis"`
 }
 
 func Load() *Config {

@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: thiengk563@gmail.com
+    name: Webbythien
+    url: https://webbythien.com
+  license: {}
+  title: "event.chat.v1"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:{servicePort}"
+    description: "Local Server"
+    variables:
+      servicePort:
+        default: "9000"
+        description: "The port number"
+paths: {}
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+      name: Authorization
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    CookieAuth:
+      type: apiKey
+      scheme: bearer
+      in: cookie
+      name: accessToken
+security: []

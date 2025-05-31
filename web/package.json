@@ -1,0 +1,21 @@
+{
+  "name": "@hostie/api",
+  "version": "0.0.1",
+  "description": "The Hostie API SDK",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monorepo/hostie.git"
+  },
+  "author": "hostie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/monorepo/hostie/issues"
+  },
+  "homepage": "https://github.com/monorepo/hostie#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

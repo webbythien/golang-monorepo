@@ -1,0 +1,11 @@
+{
+  "name": "web",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "web",
+  "implicitDependencies": [
+    "proto"
+  ],
+  "targets": {},
+  "tags": []
+}

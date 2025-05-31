@@ -11,10 +11,16 @@ server:
 
 service_name: iam_service
 
+redis:
+  host: localhost
+  port: 6379
+  password: strongP@ssw0rd
+  db: 0
+
 postgresql:
   host: localhost
   port: 5432
-  database: chat-service
+  database: postgres
   username: postgres
   password: dev-test
   sslmode: disable
